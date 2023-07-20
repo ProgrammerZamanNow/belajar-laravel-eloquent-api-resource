@@ -23,12 +23,17 @@ Route::get('/categories/{id}', function ($id) {
     return new \App\Http\Resources\CategoryResource($category);
 });
 
-Route::get('/categories', function (){
+Route::get('/categories', function () {
     $categories = \App\Models\Category::all();
     return \App\Http\Resources\CategoryResource::collection($categories);
 });
 
-Route::get('/categories-custom', function (){
+Route::get('/categories-custom', function () {
     $categories = \App\Models\Category::all();
     return new \App\Http\Resources\CategoryCollection($categories);
+});
+
+Route::get('/products/{id}', function ($id) {
+    $product = \App\Models\Product::find($id);
+    return new \App\Http\Resources\ProductResource($product);
 });
