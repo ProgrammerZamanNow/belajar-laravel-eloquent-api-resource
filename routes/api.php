@@ -35,11 +35,12 @@ Route::get('/categories-custom', function () {
 
 Route::get('/products/{id}', function ($id) {
     $product = \App\Models\Product::find($id);
+    $product->load("category");
     return new \App\Http\Resources\ProductResource($product);
 });
 
 Route::get('/products', function (){
-    $products = \App\Models\Product::all();
+    $products = \App\Models\Product::with('category')->get();
     return new \App\Http\Resources\ProductCollection($products);
 });
 
@@ -47,4 +48,9 @@ Route::get('/products-paging', function (Request $request){
     $page = $request->get('page', 1);
     $products = \App\Models\Product::paginate(perPage: 2, page: $page);
     return new \App\Http\Resources\ProductCollection($products);
+});
+
+Route::get('/products-debug/{id}', function ($id){
+    $product = \App\Models\Product::find($id);
+    return new \App\Http\Resources\ProductDebugResource($product);
 });
