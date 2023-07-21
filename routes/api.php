@@ -36,7 +36,9 @@ Route::get('/categories-custom', function () {
 Route::get('/products/{id}', function ($id) {
     $product = \App\Models\Product::find($id);
     $product->load("category");
-    return new \App\Http\Resources\ProductResource($product);
+    return (new \App\Http\Resources\ProductResource($product))
+        ->response()
+        ->header("X-Powered-By", "Programmer Zaman Now");
 });
 
 Route::get('/products', function (){
